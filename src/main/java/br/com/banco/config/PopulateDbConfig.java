@@ -25,9 +25,7 @@ public class PopulateDbConfig {
         }
 
         dbService.populateDatabase();
-
         return true;
-
     }
 
 }

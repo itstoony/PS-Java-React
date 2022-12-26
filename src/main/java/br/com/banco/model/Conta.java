@@ -12,38 +12,38 @@ import java.time.LocalDateTime;
 /**
  * Entity representing Account
  */
+@Setter
 @Entity
-@Table(name = "conta")
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Getter
-@Setter
+@Table(name = "conta")
 public class Conta {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "agencia", unique = true)
     @NotNull
     @Size(min = 1, max = 9999)
+    @Column(name = "agencia", unique = true)
     private Integer agencia;
 
-    @Column(name = "numero", unique = true)
     @NotNull
     @Size(min = 1111, max = 99999999)
+    @Column(name = "numero", unique = true)
     private Integer numero;
 
-    @Column(name = "nome_responsavel")
     @NotNull
+    @Column(name = "nome_responsavel")
     @NotEmpty(message = "nome responsável não deve ser vazio")
     private String nomeResponsavel;
 
-    @Column(name = "email")
     @Email
     @NotNull
     @NotEmpty
+    @Column(name = "email")
     private String email;
 
     @Column(name = "saldo", columnDefinition = "DECIMAL(20,2) DEFAULT 0.00")

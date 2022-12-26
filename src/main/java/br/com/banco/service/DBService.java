@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 
 /**
@@ -25,9 +26,9 @@ public class DBService {
     public void populateDatabase() {
 
         Conta c1 = new Conta("Alice Evelyn Rezende", 1926, 1111299, "alicevelyn@gmail.com");
-        Conta c2 = new Conta("Victor Carlos Eduardo da Conceição", 2697,11909463, "carlosvitor12@outlook.com");
+        Conta c2 = new Conta("Victor Carlos Eduardo da Conceição", 2697, 11909463, "carlosvitor12@outlook.com");
 
-        depositarDb(c1,52500.00, 22, 5, 2022, 16, 15, 55);
+        depositarDb(c1, 52500.00, 22, 5, 2022, 16, 15, 55);
         depositarDb(c2, 12355.00, 16, 2, 2022, 12, 22, 30);
 
         contaService.inserir(c1);
@@ -57,6 +58,7 @@ public class DBService {
                 .conta(conta)
                 .saldoAtual(conta.getSaldo())
                 .build();
+
         transferenciaService.inserir(transferencia);
 
     }
@@ -74,6 +76,7 @@ public class DBService {
                 .conta(conta)
                 .saldoAtual(conta.getSaldo())
                 .build();
+
         transferenciaService.inserir(transferencia);
     }
 
@@ -110,4 +113,5 @@ public class DBService {
         transferenciaService.inserir(transSaida);
 
     }
+
 }

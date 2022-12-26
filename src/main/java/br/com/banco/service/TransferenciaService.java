@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.time.LocalDateTime;
 
 @Service
@@ -15,22 +16,29 @@ public class TransferenciaService {
     @Autowired
     private TransferenciaRepository transferenciaRepository;
 
+    public TransferenciaService(TransferenciaRepository transferenciaRepository) {
+        this.transferenciaRepository = transferenciaRepository;
+    }
 
     /**
      * Insert transaction into database
+     *
      * @param transferencia Transaction object
+     * @return
      */
     @Transactional
-    public void inserir(Transferencia transferencia) {
-        transferenciaRepository.save(transferencia);
+    public Transferencia inserir(Transferencia transferencia) {
+        return transferenciaRepository.save(transferencia);
+
     }
 
     /**
      * Retrieves data from Database using account id as reference filtering by period and operator's name.
-     * @param id Account id
+     *
+     * @param id     Account id
      * @param inicio begin period
-     * @param fim end period
-     * @param name operator's name
+     * @param fim    end period
+     * @param name   operator's name
      * @return Page of Transactions
      */
     public Page<Transferencia> findByNomeAndPeriodo(Long id, LocalDateTime inicio, LocalDateTime fim, String name, Pageable pageable) {
@@ -39,12 +47,14 @@ public class TransferenciaService {
 
     /**
      * Retrieves data from Database using account id as reference filtering by period and operator's name.
-     * @param id Account id
+     *
+     * @param id     Account id
      * @param inicio begin period
-     * @param fim ending period
+     * @param fim    ending period
      * @return Page of Transactions
      */
     public Page<Transferencia> findByPeriodo(Long id, LocalDateTime inicio, LocalDateTime fim, Pageable pageable) {
         return transferenciaRepository.findByPeriodo(id, inicio, fim, pageable);
     }
+
 }

@@ -11,12 +11,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
 public class ContaService {
+
+    public ContaService(ContaRepository contaRepository) {
+        this.contaRepository = contaRepository;
+    }
 
     @Autowired
     private ContaRepository contaRepository;
@@ -27,14 +32,16 @@ public class ContaService {
 
     /**
      * Insert an account at database
+     *
      * @param conta account object
      */
-    public void inserir(Conta conta) {
-        contaRepository.save(conta);
+    public Conta inserir(Conta conta) {
+        return contaRepository.save(conta);
     }
 
     /**
      * validates value before making transcations. (AccountBalance - Value) shouldn't be less than 0
+     *
      * @param conta Account object
      * @param valor value
      */
@@ -46,9 +53,10 @@ public class ContaService {
 
     /**
      * transfer value from a account to another. Instantiates Transferencia object and inserts at database.
-     * @param origem account sender
+     *
+     * @param origem  account sender
      * @param destino account receiver
-     * @param valor value
+     * @param valor   value
      */
     @Transactional
     public void transferir(Conta origem, Conta destino, Double valor) {
@@ -86,6 +94,7 @@ public class ContaService {
 
     /**
      * Withdraws value from account. Instantiates Transferencia object and inserts at database.
+     *
      * @param conta account object
      * @param valor value
      */
@@ -103,12 +112,14 @@ public class ContaService {
                 .conta(conta)
                 .saldoAtual(conta.getSaldo())
                 .build();
+
         transferenciaService.inserir(transferencia);
 
     }
 
     /**
      * Deposit value to account. Instantiates Transferencia object and inserts at database.
+     *
      * @param conta account object
      * @param valor value
      */
@@ -124,12 +135,14 @@ public class ContaService {
                 .conta(conta)
                 .saldoAtual(conta.getSaldo())
                 .build();
+
         transferenciaService.inserir(transferencia);
 
     }
 
     /**
      * Converts dto from account into Account object
+     *
      * @param dto ContaDTO
      * @return Account Object
      */
@@ -147,11 +160,13 @@ public class ContaService {
 
     /**
      * Retrieves account object from database by id.
+     *
      * @param id account's id
      * @return Account Object
      */
     public Conta findById(Long id) {
         Optional<Conta> op = contaRepository.findById(id);
+
         if (op.isEmpty()) {
             throw new EntityNotFoundException("Account with id: " + id + " not found");
         }
@@ -161,10 +176,11 @@ public class ContaService {
 
     /**
      * Retrieves data from Database using account id as reference filtering by period and operator's name.
-     * @param id Account id
+     *
+     * @param id     Account id
      * @param inicio begin period
-     * @param fim end period
-     * @param name operator's name
+     * @param fim    end period
+     * @param name   operator's name
      * @return Page of Transactions
      */
     public Page<Transferencia> findByOperadorAndPeriod(Long id, LocalDateTime inicio, LocalDateTime fim, String name, Pageable pageable) {
@@ -173,9 +189,10 @@ public class ContaService {
 
     /**
      * Retrieves data from Database using account id as reference filtering by period and operator's name.
-     * @param id Account id
+     *
+     * @param id     Account id
      * @param inicio begin period
-     * @param fim ending period
+     * @param fim    ending period
      * @return Page of Transactions
      */
     public Page<Transferencia> findByPeriodo(Long id, LocalDateTime inicio, LocalDateTime fim, Pageable pageable) {

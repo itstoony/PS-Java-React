@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
  * Entity representing Transactions
  */
 @Entity
-@Table(name = "transferencia")
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "transferencia")
 public class Transferencia {
 
     @Id
@@ -27,12 +27,12 @@ public class Transferencia {
     @Column(name = "data_transferencia")
     private LocalDateTime dataTransferencia;
 
-    @Column(name = "valor", nullable = false, columnDefinition = "DECIMAL(20,2)")
     @NotNull
+    @Column(name = "valor", nullable = false, columnDefinition = "DECIMAL(20,2)")
     private Double valor;
 
-    @Enumerated(value = EnumType.STRING)
     @NotNull
+    @Enumerated(value = EnumType.STRING)
     private Operacao tipo;
 
     @Column(name = "nome_operador_transacao")

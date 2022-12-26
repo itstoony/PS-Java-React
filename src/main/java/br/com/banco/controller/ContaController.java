@@ -12,13 +12,15 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/conta")
+@CrossOrigin(origins = "*")
 public class ContaController {
 
     @Autowired
@@ -34,7 +36,10 @@ public class ContaController {
 
         Conta conta = contaService.fromDto(dto);
 
-        contaService.inserir(conta);
+        Conta contaSalva = contaService.inserir(conta);
+
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(contaSalva.getId()).toUri();
 
         return ResponseEntity.ok().build();
     }
@@ -45,8 +50,8 @@ public class ContaController {
      */
     @PutMapping(path = "/depositar/{id}/{valor}")
     public ResponseEntity<Void> depositar(@PathVariable Long id, @PathVariable Double valor) {
-        Conta conta = contaService.findById(id);
 
+        Conta conta = contaService.findById(id);
         contaService.depositar(conta, valor);
 
         return ResponseEntity.ok().build();
@@ -58,8 +63,8 @@ public class ContaController {
      */
     @PutMapping(path = "/sacar/{id}/{valor}")
     public ResponseEntity<Void> sacar(@PathVariable Long id, @PathVariable Double valor) {
-        Conta conta = contaService.findById(id);
 
+        Conta conta = contaService.findById(id);
         contaService.sacar(conta, valor);
 
         return ResponseEntity.ok().build();
@@ -72,7 +77,8 @@ public class ContaController {
      */
     @PutMapping(path = "/transferir/{idOrigem}/{valor}/{idDestino}")
     public ResponseEntity<Void> transferir(@PathVariable Long idOrigem,
-                                           @PathVariable Double valor, @PathVariable Long idDestino) {
+                                           @PathVariable Double valor,
+                                           @PathVariable Long idDestino) {
 
         Conta origem = contaService.findById(idOrigem);
         Conta destino = contaService.findById(idDestino);

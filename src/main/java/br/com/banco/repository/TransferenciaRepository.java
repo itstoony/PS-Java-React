@@ -6,8 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
 import java.time.LocalDateTime;
 
+@Repository
 public interface TransferenciaRepository extends JpaRepository<Transferencia, Long> {
 
 
@@ -22,7 +25,7 @@ public interface TransferenciaRepository extends JpaRepository<Transferencia, Lo
     @Query("SELECT t FROM Transferencia t WHERE t.conta.id = :id AND t.dataTransferencia BETWEEN :inicio AND :fim AND t.nomeOperadorTransacao LIKE %:nome%")
     Page<Transferencia> findByPeriodAndName(@Param("id") Long id,
                                             @Param("inicio") LocalDateTime inicio,
-                                            @Param("fim") LocalDateTime fim, 
+                                            @Param("fim") LocalDateTime fim,
                                             @Param("nome") String name,
                                             Pageable pageable);
 
