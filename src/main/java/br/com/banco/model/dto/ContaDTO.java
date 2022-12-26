@@ -22,6 +22,6 @@ public class ContaDTO {
     @Size(min = 1111, max = 99999999)
     private Integer numero;
 
-
     private Double valor;
+
 }
